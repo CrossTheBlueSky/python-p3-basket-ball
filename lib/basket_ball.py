@@ -182,3 +182,69 @@ def game_dict():
             ]
         }
     }
+
+from lib.basket_ball import *
+
+data = game_dict()
+
+def num_points_per_game(player):
+
+    for member in data['home']["players"]:
+        if player == member["name"]:
+            return member["points_per_game"]
+    
+    for member in data['away']["players"]:
+        if player == member["name"]:
+            return member["points_per_game"]
+
+def player_age(player):
+    for member in data['home']["players"]:
+        if player == member["name"]:
+            return member["age"]
+    
+    for member in data['away']["players"]:
+        if player == member["name"]:
+            return member["age"]
+
+def team_colors(team):
+    if team == data["away"]["team_name"]:
+        return data["away"]["colors"]
+    if team == data["home"]["team_name"]:
+        return data["home"]["colors"]
+
+def team_names():
+    return [data["home"]["team_name"], data["away"]["team_name"]]
+
+def player_numbers(team):
+    if team == data["away"]["team_name"]:
+        return [player["number"] for player in data["away"]["players"]]
+    if team == data["home"]["team_name"]:
+        return [player["number"] for player in data["home"]["players"]]
+
+def player_stats(player):
+    for teammate in data["home"]["players"]:
+        if player == teammate["name"]:
+            return teammate
+    for teammate in data["away"]["players"]:
+        if player == teammate["name"]:
+            return teammate
+
+def average_rebounds_by_shoe_brand():
+
+
+    brands = ["Nike", "Adidas", "Puma", "Jordan"]
+    for brand in brands:
+        info = {brand: []}
+        total = 0
+        count = 0
+        for player in data["home"]["players"]:
+            if brand == player["shoe_brand"]:
+                info[f"{brand}"].append(player["rebounds_per_game"])
+        for player in data["away"]["players"]:
+            if brand == player["shoe_brand"]:
+                info[f"{brand}"].append(player["rebounds_per_game"])
+        for score in info[f"{brand}"]:
+            total += score
+            count +=1
+
+        print(f"{brand}:  {'%.2f' % (total / count)}")
